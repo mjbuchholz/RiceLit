@@ -1,13 +1,23 @@
 package ricelit.ricelit;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -17,6 +27,14 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Crawl List View
+        ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
+
+        String[] stringList = new String[] { "stop1", "stop2", "stop3" };
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stringList);
+        crawlListView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,5 +66,37 @@ public class MainMenu extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private static class CrawlAdaptor extends BaseAdapter {
+        private Context context;
+        private LayoutInflater inflater;
+        private ArrayList<String> source;
+
+        public CrawlAdaptor(Context cContext, ArrayList<String> cSource) {
+            context = cContext;
+            source = cSource;
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return source.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return source.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return inflater.inflate(R.layout.list_item_crawl, parent, false);
+        }
     }
 }
