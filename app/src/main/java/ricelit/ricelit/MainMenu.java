@@ -1,5 +1,6 @@
 package ricelit.ricelit;
 
+import android.content.Context;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Context;
@@ -13,6 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.view.ViewGroup;
