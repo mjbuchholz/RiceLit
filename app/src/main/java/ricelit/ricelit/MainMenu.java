@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
 
 public class MainMenu extends AppCompatActivity {
 
@@ -31,9 +33,14 @@ public class MainMenu extends AppCompatActivity {
         // Crawl List View
         ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
 
-        String[] stringList = new String[] { "stop1", "stop2", "stop3" };
+        ArrayList<String> arrayList = new ArrayList<String>();
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stringList);
+        // testing the stopList display
+        for (int i = 0; i < 20; i++) {
+            arrayList.add(i, "Crawl " + (i + 1));
+        }
+
+        CrawlAdapter adapter = new CrawlAdapter(this, arrayList);
         crawlListView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -68,12 +75,12 @@ public class MainMenu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private static class CrawlAdaptor extends BaseAdapter {
+    private static class CrawlAdapter extends BaseAdapter {
         private Context context;
         private LayoutInflater inflater;
         private ArrayList<String> source;
 
-        public CrawlAdaptor(Context cContext, ArrayList<String> cSource) {
+        CrawlAdapter(Context cContext, ArrayList<String> cSource) {
             context = cContext;
             source = cSource;
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -96,7 +103,9 @@ public class MainMenu extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return inflater.inflate(R.layout.list_item_crawl, parent, false);
+            View view = inflater.inflate(R.layout.list_item_crawl, parent, false);
+            ((TextView)view.findViewById(R.id.title)).setText(source.get(position));
+            return view;
         }
     }
 }
