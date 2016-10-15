@@ -49,20 +49,21 @@ public class MainMenu extends AppCompatActivity {
         // Crawl List View
         ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
 
-        ArrayList<String> arrayList = new ArrayList<String>();
+        final ArrayList<String> arrayList = new ArrayList<String>();
 
         // testing the stopList display
-        for (int i = 0; i < 20; i++) {
-            arrayList.add(i, "Crawl " + (i + 1));
-        }
 
-        CrawlAdapter adapter = new CrawlAdapter(this, arrayList);
+        final CrawlAdapter adapter = new CrawlAdapter(this, arrayList);
         crawlListView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final EditText input = new EditText(MainMenu.this);
+                final EditText input1 = new EditText(MainMenu.this);
+                input.setHint("Crawl Name");
+                input1.setHint("Crawl Thing");
                 AlertDialog alert = new AlertDialog.Builder(MainMenu.this)
                         .setTitle("Create Crawl")
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -72,16 +73,13 @@ public class MainMenu extends AppCompatActivity {
                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                Add to Crawl List
+                                arrayList.add(input.getText().toString());
+                                adapter.notifyDataSetChanged();
                             }
                         }).create();
 
                 LinearLayout layout= new LinearLayout(MainMenu.this);
                 layout.setOrientation(LinearLayout.VERTICAL); //1 is for vertical orientation
-                final EditText input = new EditText(MainMenu.this);
-                final EditText input1 = new EditText(MainMenu.this);
-                input.setHint("Crawl Name");
-                input1.setHint("Crawl Thing");
                 layout.addView(input);
                 layout.addView(input1);
                 alert.setView(layout);
