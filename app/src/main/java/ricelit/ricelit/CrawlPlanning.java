@@ -89,7 +89,7 @@ public class CrawlPlanning extends AppCompatActivity {
                                         && isValid(sustenanceText)) {
                                     Stop stop = new Stop(locationText, hostText, sustenanceText);
 
-                                    arrayList.add(0, stop);
+                                    arrayList.add(stop);
                                     adapter.notifyDataSetChanged();
                                 }
                             }
