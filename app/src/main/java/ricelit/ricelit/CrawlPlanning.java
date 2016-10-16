@@ -98,6 +98,8 @@ public class CrawlPlanning extends AppCompatActivity {
                 LinearLayout layout = new LinearLayout(CrawlPlanning.this);
                 layout.setOrientation(LinearLayout.VERTICAL); //1 is for vertical orientation
                 layout.addView(location);
+                layout.addView(host);
+                layout.addView(sustenance);
                 alert.setView(layout);
                 alert.show();
             }
