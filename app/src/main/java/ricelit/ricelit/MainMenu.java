@@ -50,8 +50,6 @@ public class MainMenu extends AppCompatActivity {
         // Crawl List View
         final ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
         final ArrayList<String> arrayList = new ArrayList<String>();
-        // testing the stopList display
-
         final CrawlAdapter adapter = new CrawlAdapter(this, arrayList);
         crawlListView.setAdapter(adapter);
 
@@ -147,19 +145,13 @@ public class MainMenu extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
-            return source.size();
-        }
+        public int getCount() { return source.size(); }
 
         @Override
-        public Object getItem(int position) {
-            return source.get(position);
-        }
+        public Object getItem(int position) { return source.get(position); }
 
         @Override
-        public long getItemId(int position) {
-            return position;
-        }
+        public long getItemId(int position) { return position; }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
