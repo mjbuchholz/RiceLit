@@ -37,9 +37,11 @@ public class CrawlPlanning extends AppCompatActivity {
         String jsonString = getIntent().getStringExtra("crawlInstance");
         MainMenu.Crawl crawl =  (new Gson()).fromJson(jsonString, MainMenu.Crawl.class);
 
+        setTitle(crawl.name);
+
         // Stop ListView
         ListView stopListView = (ListView) findViewById(R.id.stop_list_view);
-        final ArrayList<Stop> arrayList = new ArrayList<Stop>();
+        final ArrayList<Stop> arrayList = crawl.stopList;
         final StopAdapter adapter = new StopAdapter(this, arrayList);
         stopListView.setAdapter(adapter);
 
