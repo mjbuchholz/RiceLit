@@ -15,12 +15,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.FileOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -38,7 +40,6 @@ import java.util.ArrayList;
 
 
 public class MainMenu extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +47,37 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Crawl ListView
-        ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
+        // Crawl List View
+        final ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
         final ArrayList<String> arrayList = new ArrayList<String>();
+        // testing the stopList display
+
         final CrawlAdapter adapter = new CrawlAdapter(this, arrayList);
         crawlListView.setAdapter(adapter);
+
+        crawlListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           final int pos, long id) {
+//                AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
+                //crawlListView.removeViewAt(pos);
+                AlertDialog alert = new AlertDialog.Builder(MainMenu.this)
+                    .setTitle("Delete Crawl")
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int which){
+                        }
+                    })
+                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            arrayList.remove(pos);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }).create();
+                alert.show();
+                return true;
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -136,8 +163,11 @@ public class MainMenu extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = inflater.inflate(R.layout.list_item_crawl, parent, false);
-            ((TextView) view.findViewById(R.id.title)).setText(source.get(position));
+            View view = convertView;
+            if (view == null) {
+                view = inflater.inflate(R.layout.list_item_crawl, parent, false);
+            }
+            ((TextView)view.findViewById(R.id.title)).setText(source.get(position));
             return view;
         }
     }
