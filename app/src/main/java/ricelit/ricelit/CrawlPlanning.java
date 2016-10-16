@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class CrawlPlanning extends AppCompatActivity {
@@ -31,11 +33,15 @@ public class CrawlPlanning extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle(getIntent().getStringExtra("name"));
+        // Parsing Crawl constructing object
+        String jsonString = getIntent().getStringExtra("crawlInstance");
+        MainMenu.Crawl crawl =  (new Gson()).fromJson(jsonString, MainMenu.Crawl.class);
+
+        setTitle(crawl.name);
 
         // Stop ListView
         ListView stopListView = (ListView) findViewById(R.id.stop_list_view);
-        final ArrayList<Stop> arrayList = new ArrayList<Stop>();
+        final ArrayList<Stop> arrayList = crawl.stopList;
         final StopAdapter adapter = new StopAdapter(this, arrayList);
         stopListView.setAdapter(adapter);
 
@@ -106,7 +112,7 @@ public class CrawlPlanning extends AppCompatActivity {
         });
     }
 
-    private class Stop {
+    public class Stop {
         private String location;
         private String host;
         private String sustenance;
