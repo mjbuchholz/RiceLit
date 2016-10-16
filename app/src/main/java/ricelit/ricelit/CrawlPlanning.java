@@ -2,6 +2,7 @@ package ricelit.ricelit;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,12 +21,15 @@ import java.util.ArrayList;
 
 public class CrawlPlanning extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crawl_planning);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle(getIntent().getStringExtra("name"));
 
         // Stop ListView
         ListView stopListView = (ListView) findViewById(R.id.stop_list_view);
@@ -37,15 +41,13 @@ public class CrawlPlanning extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long id) {
-//                AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
-                //crawlListView.removeViewAt(pos);
                 AlertDialog alert = new AlertDialog.Builder(CrawlPlanning.this)
                         .setTitle("Delete Stop")
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                             public void onClick(DialogInterface dialog, int which){
                             }
                         })
-                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 arrayList.remove(pos);
