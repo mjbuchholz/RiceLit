@@ -1,13 +1,10 @@
 package ricelit.ricelit;
 
 import android.content.Context;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,27 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.io.FileOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 
 public class MainMenu extends AppCompatActivity {
