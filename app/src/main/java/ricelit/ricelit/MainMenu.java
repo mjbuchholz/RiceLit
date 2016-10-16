@@ -4,6 +4,7 @@ import android.content.Context;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -50,8 +51,6 @@ public class MainMenu extends AppCompatActivity {
         // Crawl List View
         final ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
         final ArrayList<String> arrayList = new ArrayList<String>();
-        // testing the stopList display
-
         final CrawlAdapter adapter = new CrawlAdapter(this, arrayList);
         crawlListView.setAdapter(adapter);
 
@@ -59,15 +58,13 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long id) {
-//                AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
-                //crawlListView.removeViewAt(pos);
                 AlertDialog alert = new AlertDialog.Builder(MainMenu.this)
                     .setTitle("Delete Crawl")
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int which){
                         }
                     })
-                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             arrayList.remove(pos);
@@ -100,6 +97,10 @@ public class MainMenu extends AppCompatActivity {
                                         && text.length() < 50) {
                                     arrayList.add(0, input.getText().toString());
                                     adapter.notifyDataSetChanged();
+                                    Intent intent = new Intent(getApplicationContext(),
+                                            CrawlPlanning.class);
+                                    intent.putExtra("name", text.toString());
+                                    startActivity(intent);
                                 }
                             }
                         }).create();
@@ -147,19 +148,13 @@ public class MainMenu extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
-            return source.size();
-        }
+        public int getCount() { return source.size(); }
 
         @Override
-        public Object getItem(int position) {
-            return source.get(position);
-        }
+        public Object getItem(int position) { return source.get(position); }
 
         @Override
-        public long getItemId(int position) {
-            return position;
-        }
+        public long getItemId(int position) { return position; }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
