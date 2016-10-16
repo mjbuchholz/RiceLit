@@ -48,6 +48,9 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Title
+        setTitle("Your Crawls");
+
         // Crawl List View
         final ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
         final ArrayList<String> arrayList = new ArrayList<String>();

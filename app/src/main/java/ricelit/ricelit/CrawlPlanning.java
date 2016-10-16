@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -63,8 +65,41 @@ public class CrawlPlanning extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final EditText location = new EditText(CrawlPlanning.this);
+                final EditText host = new EditText(CrawlPlanning.this);
+                final EditText sustenance = new EditText(CrawlPlanning.this);
+
+                location.setHint("Location");
+                host.setHint("Host Name");
+                sustenance.setHint("Food and Drinks Served");
+                AlertDialog alert = new AlertDialog.Builder(CrawlPlanning.this)
+                        .setTitle("Create Stop")
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String locationText = location.getText().toString();
+                                String hostText = host.getText().toString();
+                                String sustenanceText = sustenance.getText().toString();
+                                if (isValid(locationText)
+                                        && isValid(hostText)
+                                        && isValid(sustenanceText)) {
+                                    Stop stop = new Stop(locationText, hostText, sustenanceText);
+
+                                    arrayList.add(0, stop);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }).create();
+
+                LinearLayout layout = new LinearLayout(CrawlPlanning.this);
+                layout.setOrientation(LinearLayout.VERTICAL); //1 is for vertical orientation
+                layout.addView(location);
+                alert.setView(layout);
+                alert.show();
             }
         });
     }
@@ -113,13 +148,16 @@ public class CrawlPlanning extends AppCompatActivity {
             if (view == null) {
                 view = inflater.inflate(R.layout.list_item_stop, parent, false);
             }
-            ((TextView)view.findViewById(R.id.title)).setText(source.get(position).location);
+            Stop stop = source.get(position);
+            ((TextView)view.findViewById(R.id.location)).setText(stop.location);
+            ((TextView)view.findViewById(R.id.host)).setText(stop.host);
+            ((TextView)view.findViewById(R.id.sustenance)).setText(stop.sustenance);
             return view;
         }
     }
 
-    private static boolean isValid(android.text.Editable text) {
-        if (text.length() > 0 && !text.toString().matches("\\s*") && text.length() < 50) {
+    private static boolean isValid(String string) {
+        if (string.length() > 0 && !string.matches("\\s*") && string.length() < 50) {
             return true;
         }
         return true;
