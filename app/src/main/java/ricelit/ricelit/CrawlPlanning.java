@@ -69,28 +69,37 @@ public class CrawlPlanning extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // text inputs for each member variable of Stop class
                 final EditText location = new EditText(CrawlPlanning.this);
                 final EditText host = new EditText(CrawlPlanning.this);
                 final EditText sustenance = new EditText(CrawlPlanning.this);
-
                 location.setHint("Location");
                 host.setHint("Host Name");
                 sustenance.setHint("Food and Drinks Served");
+
+                // alert with text inputs
                 AlertDialog alert = new AlertDialog.Builder(CrawlPlanning.this)
                         .setTitle("Create Stop")
+
+                        // do nothing on Cancel
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         })
+
+                        // add inputs if valid on Done
                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                // get text from all inputs
                                 String locationText = location.getText().toString();
                                 String hostText = host.getText().toString();
                                 String sustenanceText = sustenance.getText().toString();
-                                if (isValid(locationText)
-                                        && isValid(hostText)
-                                        && isValid(sustenanceText)) {
+
+                                // add to arrayList if inputs are valid
+                                if (Ext.isValid(locationText)
+                                        && Ext.isValid(hostText)
+                                        && Ext.isValid(sustenanceText)) {
                                     Stop stop = new Stop(locationText, hostText, sustenanceText);
 
                                     arrayList.add(stop);
@@ -160,12 +169,5 @@ public class CrawlPlanning extends AppCompatActivity {
             ((TextView)view.findViewById(R.id.sustenance)).setText(stop.sustenance);
             return view;
         }
-    }
-
-    private static boolean isValid(String string) {
-        if (string.length() > 0 && !string.matches("\\s*") && string.length() < 50) {
-            return true;
-        }
-        return true;
     }
 }

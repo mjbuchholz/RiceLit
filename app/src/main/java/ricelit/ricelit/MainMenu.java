@@ -50,7 +50,7 @@ public class MainMenu extends AppCompatActivity {
                 Crawl crawl = arrayList.get(pos);
 
                 // create intent from crawl and start activity
-                startActivity(crawlToIntent(crawl, getApplicationContext()));
+                startActivity(Ext.crawlToIntent(crawl, getApplicationContext()));
             }
         });
 
@@ -59,14 +59,21 @@ public class MainMenu extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // text input for name variable of Crawl class
                 final EditText input = new EditText(MainMenu.this);
                 input.setHint("Crawl Name");
+
+                // alert with text input
                 AlertDialog alert = new AlertDialog.Builder(MainMenu.this)
                         .setTitle("Create Crawl")
+
+                        // do nothing on Cancel
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         })
+
+                        // add crawl to arrayList and start CrawlPlanning activity on Done
                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -78,7 +85,10 @@ public class MainMenu extends AppCompatActivity {
                                     arrayList.add(0, crawl);
                                     adapter.notifyDataSetChanged();
 
-                                    startActivity(crawlToIntent(crawl, getApplicationContext()));
+                                    startActivity(Ext.crawlToIntent(
+                                            crawl,
+                                            getApplicationContext())
+                                    );
                                 }
                             }
                         }).create();
@@ -98,10 +108,14 @@ public class MainMenu extends AppCompatActivity {
                                            final int pos, long id) {
                 AlertDialog alert = new AlertDialog.Builder(MainMenu.this)
                     .setTitle("Delete Crawl")
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+
+                    // do nothing on Cancel
+                   .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int which){
                         }
                     })
+
+                    // delete Crawl on Delete
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -113,13 +127,6 @@ public class MainMenu extends AppCompatActivity {
                 return true;
             }
         });
-    }
-
-    static Intent crawlToIntent(Crawl crawl, Context context) {
-        // create json representation of Crawl class
-        return new Intent(context,
-                CrawlPlanning.class)
-                .putExtra("crawlInstance", (new Gson()).toJson(crawl, Crawl.class));
     }
 
     @Override
