@@ -46,13 +46,9 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Crawl List View
+        // Crawl ListView
         ListView crawlListView = (ListView) findViewById(R.id.crawl_list_view);
-
         final ArrayList<String> arrayList = new ArrayList<String>();
-
-        // testing the stopList display
-
         final CrawlAdapter adapter = new CrawlAdapter(this, arrayList);
         crawlListView.setAdapter(adapter);
 
@@ -61,27 +57,29 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final EditText input = new EditText(MainMenu.this);
-                final EditText input1 = new EditText(MainMenu.this);
                 input.setHint("Crawl Name");
-                input1.setHint("Crawl Thing");
                 AlertDialog alert = new AlertDialog.Builder(MainMenu.this)
                         .setTitle("Create Crawl")
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int which){
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
                             }
                         })
                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                arrayList.add(input.getText().toString());
-                                adapter.notifyDataSetChanged();
+                                android.text.Editable text = input.getText();
+                                if (text.length() > 0
+                                        && !text.toString().matches("\\s*")
+                                        && text.length() < 50) {
+                                    arrayList.add(0, input.getText().toString());
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
                         }).create();
 
-                LinearLayout layout= new LinearLayout(MainMenu.this);
+                LinearLayout layout = new LinearLayout(MainMenu.this);
                 layout.setOrientation(LinearLayout.VERTICAL); //1 is for vertical orientation
                 layout.addView(input);
-                layout.addView(input1);
                 alert.setView(layout);
                 alert.show();
             }
@@ -115,10 +113,10 @@ public class MainMenu extends AppCompatActivity {
         private LayoutInflater inflater;
         private ArrayList<String> source;
 
-        CrawlAdapter(Context cContext, ArrayList<String> cSource) {
-            context = cContext;
-            source = cSource;
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        CrawlAdapter(Context context, ArrayList<String> source) {
+            this.context = context;
+            this.source = source;
+            inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
@@ -139,7 +137,7 @@ public class MainMenu extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = inflater.inflate(R.layout.list_item_crawl, parent, false);
-            ((TextView)view.findViewById(R.id.title)).setText(source.get(position));
+            ((TextView) view.findViewById(R.id.title)).setText(source.get(position));
             return view;
         }
     }
