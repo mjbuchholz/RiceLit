@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -36,8 +37,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public class MainMenu extends AppCompatActivity {
@@ -102,7 +106,10 @@ public class MainMenu extends AppCompatActivity {
                                     adapter.notifyDataSetChanged();
                                     Intent intent = new Intent(getApplicationContext(),
                                             CrawlPlanning.class);
-                                    intent.putExtra("name", text.toString());
+
+                                    // create json representation of Crawl class
+                                    intent.putExtra("crawlInstance", (new Gson())
+                                            .toJson(new Crawl(text.toString()), Crawl.class));
                                     startActivity(intent);
                                 }
                             }
@@ -137,6 +144,31 @@ public class MainMenu extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class Crawl {
+        private String name;
+        private ArrayList<CrawlPlanning.Stop> stopList;
+        private ArrayList contacts;
+
+        Crawl(String name) {
+            this.name = name;
+            stopList = new ArrayList<CrawlPlanning.Stop>();
+            contacts = new ArrayList();
+        }
+
+        Crawl(String name, ArrayList<CrawlPlanning.Stop> stopList) {
+            this.name = name;
+            this.stopList = stopList;
+            contacts = new ArrayList();
+        }
+
+        Crawl(String name, ArrayList<CrawlPlanning.Stop> stopList, ArrayList contacts) {
+            this.name = name;
+            this.stopList = stopList;
+            this.contacts = contacts;
+        }
+
     }
 
     private static class CrawlAdapter extends BaseAdapter {
